@@ -18,9 +18,11 @@ hashtags <- tweets[tweets$hashtags != "[]",]
 library(data.table)
 
 #creates a frequency column and orders the rows by frequency
-hashtags <- setDT(hashtags)[,freq := .N, by = c("hashtags")][order(-freq)]
+# -- IMPORTANT --
+# tweets still has the original tweets but also with the frequency -- from here on, hashtags loses the actual tweet itself
+tweets <- setDT(hashtags)[,freq := .N, by = c("hashtags")][order(-freq)]
 #deletes all rows except for hashtag and frequency
-hashtags <- select(hashtags, hashtags, freq)
+hashtags <- select(tweets, hashtags, freq)
 #removes duplicated rows
 hashtags <- hashtags[!duplicated(hashtags),]
 #selects only the most frequently used hashtags
