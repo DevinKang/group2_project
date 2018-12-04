@@ -26,12 +26,24 @@ drops <- c("verified", "time_zone", "description", "lang")
 users <- users[users$lang=="en",]
 users <- users[, !(names(users) %in% drops)]
 
+#Excluded everything but english tweets for the reason stated above, but I did find this interesting demographic data:
+#there were 453 total users
+#there were 90 russian users
+#there are 272 english users
+#there were 203451 total tweets
+#there were 826 russian tweets
+#there are 181493 english tweets
+
+#makes sure that the tweets that we are analyzing are in english and not russian or another language
+id <- users$id
+tweets <- tweets[tweets$user_id %in% id,]
+
 #grabs the current directory to later move back to
 wd <- getwd()
 setwd("../data")
 #uses default save function.  in order to load, move to directory and use the load() function.
 #The variables will be automatically loaded with the names they have here
-save(tweets, file="tweets.RData")	#59.1mb to 16.8mb
+save(tweets, file="tweets.RData")	#59.1mb to 14.7mb
 save(users, file="users.RData")		#98kb to 16kb
 #resets to original directory
 setwd(wd)
